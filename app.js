@@ -18,27 +18,43 @@ const corsOption = {
   optionsSuccessStatus: 200,
 };
 
-app.use(express.json());
-app.use(express.urlencoded({extended : true}));
-app.use(helmet());
-app.use(cors(corsOption));
-app.use(morgan('tiny'));
+export async function startServer() {
+  app.use(express.json());
+  app.use(express.urlencoded({extended : true}));
+  app.use(helmet());
+  app.use(cors(corsOption));
+  app.use(morgan('tiny'));
 
-app.use('/tweets', tweetsRouter(new TweetController(tweetRepository, getSocketIO)));
-app.use('/auth', authRouter);
+  app.use('/tweets', tweetsRouter(new TweetController(tweetRepository, getSocketIO)));
+  app.use('/auth', authRouter);
 
-app.use((req, res, next) => {
-  res.sendStatus(404);
-});
+  app.use((req, res, next) => {
+    res.sendStatus(404);
+  });
 
-app.use((error, req, res, next) => {
-  console.error(error);
-  res.sendStatus(500);
-});
+  app.use((error, req, res, next) => {
+    console.error(error);
+    res.sendStatus(500);
+  });
 
-sequelize.sync().then(() => {
+  await sequelize.sync();
   console.log('Server is started....');
   const server = app.listen(config.port);
   initSocket(server);
+  return server;
+}
 
-});
+export async function stopServer(server) {
+  return new Promise((resolve, reject) => {
+    server.close(async ()=>{
+      try {
+          await sequelize.close();
+          resolve();
+      } catch (e) {
+          reject(e);
+      }
+    })
+  })
+}
+
+
