@@ -11,14 +11,13 @@ import { sequelize } from './db/database.js';
 import { TweetController } from './controller/tweet.js';
 import * as tweetRepository from './data/tweet.js';
 
-const app = express();
-
 const corsOption = {
   origin: config.cors.allowedOrigin,
   optionsSuccessStatus: 200,
 };
 
 export async function startServer() {
+  const app = express();
   app.use(express.json());
   app.use(express.urlencoded({extended : true}));
   app.use(helmet());

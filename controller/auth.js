@@ -23,7 +23,6 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
-  console.log(req.body);
   const { username, password } = req.body;
   const user = await userRepository.findByUsername(username);
   if (!user) {
