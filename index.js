@@ -1,2 +1,3 @@
+import { config } from './config.js'
 import { startServer } from "./app.js";
-startServer();
+startServer(config.port);
