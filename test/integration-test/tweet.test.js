@@ -30,7 +30,6 @@ describe('Tweets API', () => {
     });
 
     afterAll(async () => {
-        await sequelize.drop();
         await stopServer(server);
     });
 

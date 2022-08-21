@@ -5,7 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watch",
+    "test": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watchAll --verbose --globalTeardown=./test/integration-test/global-teardown.js",
+    "test:unit": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watchAll --verbose --testPathIgnorePatterns=./test/integration-test",
+    "test:integration": "cross-env DOTENV_CONFIG_PATH=./.env.test jest --watchAll --verbose --testPathPattern=./test/integration-test --globalTeardown=./test/integration-test/global-teardown.js",
     "start": "nodemon index"
   },
   "author": "Dream Coding Academy",
@@ -20,7 +22,6 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
     "socket.io": "^4.1.2"
   },
@@ -31,6 +32,7 @@
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "jest": "^28.1.3",
+    "mysql2": "^2.3.3",
     "node-mocks-http": "^1.11.0",
     "nodemon": "^2.0.7"
   }

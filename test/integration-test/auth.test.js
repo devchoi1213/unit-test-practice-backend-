@@ -32,7 +32,6 @@ describe('Auth APIs', () => {
     });
 
     afterAll(async () => {
-        await sequelize.drop();
         await stopServer(server);
     });
 
